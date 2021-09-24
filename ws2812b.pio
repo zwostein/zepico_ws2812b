@@ -1,0 +1,56 @@
+; According to https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf
+;
+; zero:
+; 1 +----------.                      |
+;   |          |                      |
+;   | T0H=.4us |      T0L=.85us       |
+;   |          |                      |
+; 0 +          '----------------------|
+;
+; one:
+; 1 +--------------------.            |
+;   |                    |            |
+;   |      T1H=.8us      | T1L=.45us  |
+;   |                    |            |
+; 0 +                    '------------|
+;
+;   | TH=.4us  | TD=.4us | TL=0.45us  |
+;
+;   |           T=1.25us              |
+;
+;
+; T = 1.25us (=800kHz) = 10cycles
+;
+; TH = 0.4us = 0.32*T = ~3cycles
+; TD = 0.4us = 0.32*T = ~3cycles
+; TL = 0.45us = 0.36*T = ~4cycles
+;
+; T0H/T0L/T1H/T1L +- 0.15us (=0.12*T)
+;
+;
+; reset:
+; 1 +            |
+;   |            |
+;   | RES>=50us  |
+;   |            |
+; 0 +-----//-----|
+
+
+.program ws2812b_pio
+.side_set 1
+
+.define TH 3
+.define TD 3
+.define TL 4
+.define public CYCLES_PER_BIT (TH+TD+TL)
+.define public RESET_US 50
+
+.wrap_target
+loop:
+	out x 1        side 0 [TL-1] ; Set low then shift in a bit and wait for TL (side-set is executed even on stalls)
+	jmp !x do_zero side 1 [TH-1] ; Set high then branch if bit is zero and wait for TH
+do_one:
+	jmp loop       side 1 [TD-1] ; Keep high for TD then jump back
+do_zero:
+	nop            side 0 [TD-1] ; Set low for TD then jump back
+.wrap
