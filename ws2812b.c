@@ -137,10 +137,10 @@ void ws2812b_deinit( ws2812b_t * ws )
 }
 
 
-bool ws2812b_canApply( ws2812b_t * ws )
+bool ws2812b_isBusy( const ws2812b_t * ws )
 {
 	assert( ws );
-	return time_us_32() - ws->frame_started_us >= ws->frame_duration_us;
+	return time_us_32() - ws->frame_started_us < ws->frame_duration_us;
 }
 
 
@@ -149,10 +149,10 @@ bool ws2812b_apply( ws2812b_t * ws, bool blocking )
 	assert( ws );
 
 	if( blocking ) {
-		while( !ws2812b_canApply( ws ) ) {
+		while( ws2812b_isBusy( ws ) ) {
 		}
 	} else {
-		if( !ws2812b_canApply( ws ) ) {
+		if( ws2812b_isBusy( ws ) ) {
 			return false;
 		}
 	}

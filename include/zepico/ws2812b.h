@@ -127,21 +127,21 @@ void ws2812b_deinit( ws2812b_t * ws );
  * \param ws Pointer to the instance.
  * \return Size of buffer in bytes.
  */
-static inline size_t ws2812b_getSize( ws2812b_t * ws ) { return ws->size; }
+static inline size_t ws2812b_getSize( const ws2812b_t * ws ) { return ws->size; }
 
 /** \brief Returns the buffer to be updated. Once done it can be transferred to the WS2812Bs using \ref ws2812b_apply.
  *
  * \param ws Pointer to the instance.
  * \return Pointer to a buffer ready to be updated.
  */
-static inline uint8_t * ws2812b_getBuffer( ws2812b_t * ws ) { return ws->updateBuffer; }
+static inline uint8_t * ws2812b_getBuffer( const ws2812b_t * ws ) { return ws->updateBuffer; }
 
 /** \brief Indicates whether the previous update has been applied and a new one can be started via \ref ws2812b_apply.
  *
  * \param ws Pointer to the instance.
  * \return \c true if previous update finished.
  */
-bool ws2812b_canApply( ws2812b_t * ws );
+bool ws2812b_isBusy( const ws2812b_t * ws );
 
 /** \brief Initiates an update of the WS2812Bs.
  *
@@ -162,22 +162,23 @@ bool ws2812b_apply( ws2812b_t * ws, bool blocking );
  * @}
  */
 
+#endif
+
+
 /**
  * \page WS2812B_examples ws2812b examples
  * \brief A collection of examples.
  * \tableofcontents
  *
  * \section WS2812B_example_static_sec Static Example
- * Statically initializes driver instances.
+ * Statically initializes a driver instance.
  * \include static.c
  *
  * \section WS2812B_example_dynamic_sec Dynamic Example
- * Dynamically initializes driver instances.
+ * Dynamically initializes a driver instance.
  * \include dynamic.c
  *
  * \section WS2812B_example_parallel_sec Parallel Example
  * Controlling multiple WS2812Bs in parallel.
  * \include parallel.c
- **/
-
-#endif
+ */
