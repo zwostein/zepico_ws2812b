@@ -1,5 +1,7 @@
 add_library(zepico_ws2812b INTERFACE)
 
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/docs)
+
 target_sources(zepico_ws2812b INTERFACE
 	${CMAKE_CURRENT_LIST_DIR}/ws2812b.c
 )

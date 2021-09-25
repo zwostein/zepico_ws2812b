@@ -66,10 +66,10 @@ extern "C" {
 /// The handle for a driver instance.
 typedef struct
 {
-	PIO    pio; ///< PIO block
-	uint   sm;  ///< PIO state machine
-	uint   dma; ///< DMA controller
-	uint   pin; ///< GPIO pin
+	PIO    pio;  ///< PIO block
+	uint   sm;   ///< PIO state machine
+	uint   dma;  ///< DMA controller
+	uint   pin;  ///< GPIO pin
 	float  freq; ///< Frequency
 	size_t size; ///< Size of buffer
 
@@ -145,6 +145,8 @@ bool ws2812b_canApply( ws2812b_t * ws );
 
 /** \brief Initiates an update of the WS2812Bs.
  *
+ * \attention A successful call to this function invalidates the pointer returned from the previous \ref ws2812b_getBuffer call.
+ *
  * \param ws       Pointer to the instance.
  * \param blocking If \c true this function will wait until the previous update finished.
  * \return \c true if the previous update finished and a new update was initiated.
@@ -172,6 +174,10 @@ bool ws2812b_apply( ws2812b_t * ws, bool blocking );
  * \section WS2812B_example_dynamic_sec Dynamic Example
  * Dynamically initializes driver instances.
  * \include dynamic.c
+ *
+ * \section WS2812B_example_parallel_sec Parallel Example
+ * Controlling multiple WS2812Bs in parallel.
+ * \include parallel.c
  **/
 
 #endif
