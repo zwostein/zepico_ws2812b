@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2021, zwostein
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 /**
  * \file
  * \brief The ws2812b driver's header file.

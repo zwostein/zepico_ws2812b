@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2021, zwostein
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 #include "zepico/ws2812b.h"
 #include "ws2812b.pio.h"
 
